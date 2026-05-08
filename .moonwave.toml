@@ -1,12 +1,12 @@
+# Build output folder is set on the CLI: `moonwave build --out-dir docs` (default: build).
+# CI uses `--out-dir docs` so `.gitignore` and upload-pages-artifact stay aligned.
+
 [project]
 name = "SkillTree"
 description = "A declarative, reusable skill tree system for Roblox games"
 gitRepoUrl = "https://github.com/metricrb/skilltree"
 
 gitSourceBranch = "main"
-
-[output]
-path = "docs"
 
 [changelog]
 enabled = true

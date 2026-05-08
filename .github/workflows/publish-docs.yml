@@ -37,9 +37,9 @@ jobs:
       - name: moonwave build
         run: |
           set -euo pipefail
-          moonwave build
+          moonwave build --out-dir docs
           if [ ! -d "docs" ]; then
-            echo "::error::docs directory was not created by moonwave build. Confirm [.moonwave.toml] [output] path matches this workflow (docs)."
+            echo "::error::docs directory was not created. Moonwave defaults to build/; this workflow uses --out-dir docs."
             ls -la
             exit 1
           fi
