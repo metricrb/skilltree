@@ -250,10 +250,10 @@ Generate HTML docs:
 
 ```bash
 moonwave install
-moonwave build
+moonwave build --out-dir site
 ```
 
-Docs will be in the `docs/` directory. See `.moonwave.toml` for config.
+Static output is in **`site/`** (gitignored). Guides live in **`docs/*.md`**; the landing page is **`pages/index.md`**. See `.moonwave.toml` for GitHub Pages URL and base path.
 
 ## Extending
 

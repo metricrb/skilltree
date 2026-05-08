@@ -1,5 +1,4 @@
-# Build output folder is set on the CLI: `moonwave build --out-dir docs` (default: build).
-# CI uses `--out-dir docs` so `.gitignore` and upload-pages-artifact stay aligned.
+# CLI: `moonwave build --out-dir site` (default: build/). Guides source: `docs/*.md` in this repo.
 
 [project]
 name = "SkillTree"
@@ -14,3 +13,7 @@ enabled = true
 [docusaurus]
 url = "https://metricrb.github.io"
 baseUrl = "/skilltree/"
+tagline = "Declarative skill trees, server authority, multi-currency — strict Luau."
+
+[navbar]
+title = "SkillTree"

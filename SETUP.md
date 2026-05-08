@@ -191,10 +191,10 @@ Generate HTML docs from Moonwave comments:
 # Install moonwave (if not done)
 luarocks install moonwave
 
-# Build docs
-moonwave build
+# Build docs (HTML in ./site/)
+moonwave build --out-dir site
 
-# Output in ./docs/
+# Markdown guides for the site live in ./docs/; landing page in ./pages/
 ```
 
 Every public function, type, class, and property has Moonwave comments:

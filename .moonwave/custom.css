@@ -1,0 +1,18 @@
+/* Guides + home readability (API pages use Moonwave’s layout) */
+.markdown {
+  max-width: 52rem;
+}
+
+article {
+  margin-inline: auto;
+}
+
+.markdown table {
+  display: table;
+  width: 100%;
+}
+
+.markdown table th,
+.markdown table td {
+  padding: 0.5rem 0.75rem;
+}

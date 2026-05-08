@@ -37,5 +37,5 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Moonwave build (docs)
-        run: npx --yes moonwave@latest build --out-dir docs
+      - name: Moonwave build (docs site)
+        run: npx --yes moonwave@latest build --out-dir site

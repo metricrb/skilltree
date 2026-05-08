@@ -1,0 +1,33 @@
+# Attach a Rojo-built place/model file to each GitHub Release (e.g. tag v1.0.0).
+name: Release Rojo asset
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  rbxm:
+    name: Build and upload SkillTree.rbxm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Aftman tools (Rojo, Wally)
+        uses: ok-nick/setup-aftman@v0.4.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: v0.3.0
+
+      - name: Wally install
+        run: wally install
+
+      - name: Rojo build
+        run: rojo build default.project.json -o SkillTree.rbxm
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SkillTree.rbxm

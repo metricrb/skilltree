@@ -33,20 +33,20 @@ jobs:
       - name: Install Moonwave
         run: npm i -g moonwave@latest
 
-      # Output directory is [.moonwave.toml] [output].path (.gitignore excludes it)
+      # Static HTML: `site/` (gitignored). Source Markdown for Guides lives in `docs/` in-repo.
       - name: moonwave build
         run: |
           set -euo pipefail
-          moonwave build --out-dir docs
-          if [ ! -d "docs" ]; then
-            echo "::error::docs directory was not created. Moonwave defaults to build/; this workflow uses --out-dir docs."
+          moonwave build --out-dir site
+          if [ ! -d "site" ]; then
+            echo "::error::site/ was not created. Moonwave defaults to build/; use --out-dir site for Pages."
             ls -la
             exit 1
           fi
 
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: docs
+          path: site
 
   deploy:
     name: Deploy to GitHub Pages
