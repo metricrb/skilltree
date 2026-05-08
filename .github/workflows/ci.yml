@@ -17,6 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Prebuilt Rojo/Wally Linux binaries link OpenSSL 1.1; ubuntu-latest (24.04) only ships 3.x.
+      - name: Install OpenSSL 1.1 for Aftman CLI tools
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y wget ca-certificates
+          wget -qO /tmp/libssl1.1.deb \
+            http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+          sudo apt-get install -y /tmp/libssl1.1.deb
+
       # LPGhatguy/setup-aftman was removed; ok-nick/setup-aftman installs from aftman.toml.
       - name: Install Aftman tools (Rojo, Wally)
         uses: ok-nick/setup-aftman@v0.4.2
