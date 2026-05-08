@@ -17,10 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # LPGhatguy/setup-aftman was removed; ok-nick/setup-aftman installs from aftman.toml.
       - name: Install Aftman tools (Rojo, Wally)
-        uses: LPGhatguy/setup-aftman@v1
+        uses: ok-nick/setup-aftman@v0.4.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          version: v0.3.0
 
       - name: Wally install
         run: wally install
@@ -30,3 +32,10 @@ jobs:
 
       - name: Rojo build
         run: rojo build default.project.json -o /tmp/skilltree-ci.rbxl
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Moonwave build (docs)
+        run: npx --yes moonwave@latest build

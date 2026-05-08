@@ -1,6 +1,6 @@
 --!strict
 
---- @class SkillTree
+--- @class SkillTreePackage
 --- Main package export for the skill tree system.
 
 return {
