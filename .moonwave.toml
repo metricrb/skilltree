@@ -1,0 +1,16 @@
+[project]
+name = "SkillTree"
+description = "A declarative, reusable skill tree system for Roblox games"
+gitRepoUrl = "https://github.com/metricrb/skilltree"
+
+gitSourceBranch = "main"
+
+[output]
+path = "docs"
+
+[changelog]
+enabled = true
+
+[docusaurus]
+url = "https://metricrb.github.io"
+baseUrl = "/skilltree/"

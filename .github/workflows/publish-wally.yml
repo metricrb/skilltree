@@ -1,0 +1,60 @@
+# Publishes metricrb/skilltree to the Wally registry.
+#
+# Prerequisites
+# ─────────────
+# 1. Repository secret: WALLY_AUTH_TOKEN — run `wally login` locally, then copy the token from
+#    ~/.wally/auth.toml (see https://github.com/UpliftGames/wally#commands ).
+# 2. Bump `version` in wally.toml on the branch you publish (same as the Registry release).
+#
+# Triggers
+# ────────
+# • workflow_dispatch — publish the current checkout (typically `main` after merging a version bump).
+# • release (published) — same as above; fails if GitHub release tag `vX.Y.Z` ≠ wally.toml `X.Y.Z`.
+name: Publish (Wally)
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+concurrency:
+  group: wally-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Aftman tools (Wally)
+        uses: LPGhatguy/setup-aftman@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Match release tag to wally.toml version
+        if: github.event_name == 'release'
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event.release.tag_name }}"
+          TAG="${TAG#v}"
+          VER=$(grep -E '^version[[:space:]]*=' wally.toml | head -n1 | sed -E 's/^version[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/')
+          if [[ "$TAG" != "$VER" ]]; then
+            echo "::error::GitHub release tag version '$TAG' does not equal wally.toml version '$VER'. Bump wally.toml or fix the release tag."
+            exit 1
+          fi
+
+      - name: Wally install (validate graph before publish)
+        run: wally install
+
+      - name: Wally login & publish
+        env:
+          WALLY_AUTH_TOKEN: ${{ secrets.WALLY_AUTH_TOKEN }}
+        run: |
+          if [[ -z "${WALLY_AUTH_TOKEN:-}" ]]; then
+            echo "::error::Secret WALLY_AUTH_TOKEN is not set. Add it under Repo Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          wally login --token "$WALLY_AUTH_TOKEN"
+          wally publish

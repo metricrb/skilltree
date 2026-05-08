@@ -1,0 +1,27 @@
+# Roblox
+/.rbxl
+/.rbxlx
+
+# Rojo
+.rojo
+rojo.lock
+
+# Wally
+packages/
+ServerPackages/_Index/
+DevPackages/_Index/
+wally.lock
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+docs/

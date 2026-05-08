@@ -1,0 +1,32 @@
+# Validates manifest, resolves Wally deps, and ensures the Rojo project builds.
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Aftman tools (Rojo, Wally)
+        uses: LPGhatguy/setup-aftman@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wally install
+        run: wally install
+
+      - name: Wally package — list published files
+        run: wally package --list
+
+      - name: Rojo build
+        run: rojo build default.project.json -o /tmp/skilltree-ci.rbxl

@@ -1,0 +1,53 @@
+# Build Moonwave (Docusaurus) and deploy static site via GitHub Pages.
+#
+# Repo settings → Pages → Build and deployment → Source: GitHub Actions
+# Site URL defaults to https://<owner>.github.io/<repo>/ (see .moonwave.toml baseUrl).
+
+name: Publish docs
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Moonwave build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Moonwave
+        run: npm i -g moonwave@latest
+
+      # Output directory is [.moonwave.toml] [output].path (.gitignore excludes it)
+      - name: moonwave build
+        run: moonwave build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
