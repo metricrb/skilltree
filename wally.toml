@@ -1,6 +1,6 @@
 [package]
 name = "metricrb/skilltree"
-version = "1.0.0"
+version = "1.0.2"
 description = "A reusable, declarative skill tree system for Roblox games with support for multiple tree topologies, multi-rank upgrades, exclusive choices, and flexible prerequisites."
 authors = ["metricrb"]
 license = "MIT"
